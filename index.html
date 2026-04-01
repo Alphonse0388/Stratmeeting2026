@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#card {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+#container {
+  position: relative;
+  width: 300px;
+  height: 160px;
+  margin-top: 20px;
+}
+
+#hidden {
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 160px;
+  color: #333;
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="card">
+  <h2>✨ Une surprise t’attend ✨</h2>
+  <p>Gratte pour découvrir la destination ✈️</p>
+
+  <div id="container">
+    <div id="hidden">IBIZA 🌴</div>
+    <canvas id="scratch" width="300" height="160"></canvas>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById("scratch");
+const ctx = canvas.getContext("2d");
+
+ctx.fillStyle = "#b0b0b0";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+function scratch(x, y) {
+  ctx.globalCompositeOperation = "destination-out";
+  ctx.beginPath();
+  ctx.arc(x, y, 18, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+canvas.addEventListener("mousemove", e => {
+  if (e.buttons === 1) scratch(e.offsetX, e.offsetY);
+});
+
+canvas.addEventListener("touchmove", e => {
+  e.preventDefault();
+  const rect = canvas.getBoundingClientRect();
+  const touch = e.touches[0];
+  scratch(touch.clientX - rect.left, touch.clientY - rect.top);
+});
+</script>
+
+</body>
+</html>
